@@ -1,96 +1,3 @@
-<!-- # TaskFlow
-
-A full-stack task management app built with **React + TypeScript** (frontend) and **Node.js/Express** (backend), with JSON-file persistence. Tasks survive page refreshes and server restarts.
-
----
-
-## Getting Started
-
-You need **Node.js ≥ 18** installed.
-
-### 1. Start the API server
-
-```bash
-cd server
-npm install
-npm run dev        # nodemon — auto-restarts on changes
-```
-
-The API will be live at `http://localhost:3001`.
-
-### 2. Start the frontend
-
-Open a **second** terminal:
-
-```bash
-cd client
-npm install
-npm run dev        # Vite dev server with HMR
-```
-
-Open `http://localhost:5173` in your browser.
-
----
-
-## API Reference
-
-| Method   | Endpoint      | Body                  | Description          |
-|----------|---------------|-----------------------|----------------------|
-| `GET`    | `/tasks`      | —                     | Fetch all tasks      |
-| `POST`   | `/tasks`      | `{ title: string }`   | Create a task        |
-| `PATCH`  | `/tasks/:id`  | `{ completed?: bool, title?: string }` | Update a task |
-| `DELETE` | `/tasks/:id`  | —                     | Delete a task        |
-
----
-
-## Project Structure
-
-```
-taskflow/
-├── server/
-│   ├── index.js        # Express API (CRUD + JSON persistence)
-│   ├── tasks.json      # Auto-created on first POST
-│   └── package.json
-└── client/
-    ├── src/
-    │   ├── api.ts      # Typed fetch wrapper for all endpoints
-    │   ├── App.tsx     # Main component — state, handlers, UI
-    │   ├── index.css   # Design tokens + all styles
-    │   └── main.tsx    # React root
-    ├── index.html
-    ├── vite.config.ts
-    └── package.json
-```
-
----
-
-## Decisions & Trade-offs
-
-### Persistence: JSON file over in-memory
-The spec allowed either. I chose a JSON file (`tasks.json`) so tasks persist across server restarts — a noticeably better user experience and closer to real production behaviour, with zero added dependencies.
-
-### Optimistic UI for deletes and toggles
-Toggle and delete operations update local state immediately before the API responds. If the request fails the UI rolls back. This makes the app feel instant on good connections and resilient on bad ones — a pattern common in production apps (Twitter, Linear, Notion).
-
-### Separation of concerns: `api.ts`
-All `fetch` calls live in a dedicated typed module (`api.ts`) rather than inside the component. This keeps `App.tsx` clean, makes the API contract explicit, and means the HTTP layer can be swapped (e.g. for `react-query`) with no changes to UI logic.
-
-### TypeScript strict mode
-`"strict": true` in `tsconfig.json` catches null dereferences, implicit any types, and unused variables at compile time — same settings used in production TS codebases.
-
-### Accessibility
-- All interactive elements have `aria-label` attributes
-- Checkboxes use `aria-pressed` to communicate state to screen readers
-- The task list uses `aria-live="polite"` for dynamic content announcements
-- Filter tabs use correct `role="tablist"` / `role="tab"` / `aria-selected` semantics
-
-### What I'd add with more time
-- **Tests** — Vitest + React Testing Library for the component; Supertest for the Express routes
-- **Optimistic IDs** — generate a temporary UUID client-side so the new task renders before the POST returns
-- **Drag-to-reorder** — a priority order that also persists to the API
-- **Database** — swap `tasks.json` for SQLite (via `better-sqlite3`) for concurrent-safe writes -->
-
-
 # TaskFlow
 
 > A full-stack task manager built with React + TypeScript and Node.js/Express — clean code, optimistic UI, and persistent storage.
@@ -230,3 +137,8 @@ The spec allowed either. JSON persistence means tasks survive `Ctrl+C && npm sta
 - **Auth** — JWT-based multi-user support with per-user task isolation
 
 ---
+
+## Author
+
+**Nehan Anagam** — M.S. Computer Science, University of South Florida  
+[LinkedIn](https://linkedin.com/in/nehanteja) · [GitHub](https://github.com/nehanteja) · av37@usf.edu
